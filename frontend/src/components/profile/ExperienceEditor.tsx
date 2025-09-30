@@ -1,6 +1,5 @@
 "use client";
 import { useState } from "react";
-
 export type Exp = {
   id: number;
   title: string;
@@ -43,39 +42,45 @@ export default function ExperienceEditor({
     onChange(v);
   };
 
+  const fieldSmall =
+    "rounded-lg border border-slate-300 bg-white text-slate-800 px-3 py-2 " +
+    "placeholder:text-slate-400 " +
+    "dark:border-neutral-700 dark:bg-neutral-900 dark:text-slate-100 dark:placeholder:text-slate-500 " +
+    "focus-visible:outline focus-visible:outline-2 focus-visible:outline-brand-500";
+
   return (
     <div className="space-y-3">
       {list.map((e) => (
         <div
           key={e.id}
-          className="rounded-xl border dark:border-neutral-700 p-3 space-y-2"
+          className="rounded-xl border border-slate-300 bg-white p-3 dark:border-neutral-700 dark:bg-neutral-900"
         >
           <div className="grid md:grid-cols-2 gap-2">
             <input
               value={e.title}
               onChange={(ev) => update(e.id, { title: ev.target.value })}
               placeholder="Title (e.g., Frontend Developer)"
-              className="rounded-lg border dark:border-neutral-700 bg-transparent px-3 py-2"
+              className={fieldSmall}
             />
             <input
               value={e.company}
               onChange={(ev) => update(e.id, { company: ev.target.value })}
               placeholder="Company"
-              className="rounded-lg border dark:border-neutral-700 bg-transparent px-3 py-2"
+              className={fieldSmall}
             />
           </div>
-          <div className="grid md:grid-cols-2 gap-2">
+          <div className="grid md:grid-cols-2 gap-2 mt-2">
             <input
               value={e.start}
               onChange={(ev) => update(e.id, { start: ev.target.value })}
               placeholder="Start (e.g., 2022-01)"
-              className="rounded-lg border dark:border-neutral-700 bg-transparent px-3 py-2"
+              className={fieldSmall}
             />
             <input
               value={e.end}
               onChange={(ev) => update(e.id, { end: ev.target.value })}
               placeholder="End (or Present)"
-              className="rounded-lg border dark:border-neutral-700 bg-transparent px-3 py-2"
+              className={fieldSmall}
             />
           </div>
           <textarea
@@ -83,12 +88,12 @@ export default function ExperienceEditor({
             onChange={(ev) => update(e.id, { description: ev.target.value })}
             placeholder="Describe your work…"
             rows={3}
-            className="rounded-lg border dark:border-neutral-700 bg-transparent px-3 py-2 w-full"
+            className={fieldSmall + " w-full mt-2"}
           />
-          <div className="text-right">
+          <div className="text-right mt-2">
             <button
               onClick={() => remove(e.id)}
-              className="px-3 py-2 rounded-lg border dark:border-neutral-700"
+              className="px-3 py-2 rounded-lg border border-slate-300 dark:border-neutral-700 hover:bg-rose-50 dark:hover:bg-neutral-800"
             >
               Remove
             </button>
@@ -97,7 +102,7 @@ export default function ExperienceEditor({
       ))}
       <button
         onClick={add}
-        className="px-4 py-2 rounded-xl bg-brand-600 text-white"
+        className="px-4 py-2 rounded-xl bg-brand-600 hover:bg-brand-700 text-white"
       >
         Add experience
       </button>

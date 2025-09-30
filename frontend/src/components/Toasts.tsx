@@ -8,11 +8,13 @@ export default function Toasts() {
       {toasts.map((t) => (
         <div
           key={t.id}
-          className="card border rounded-xl px-4 py-3 bg-white shadow dark:bg-neutral-900 dark:border-neutral-700 flex items-center gap-3"
+          className="card border border-slate-300 dark:border-neutral-700 rounded-xl px-4 py-3 bg-white dark:bg-neutral-900 shadow flex items-center gap-3"
         >
-          <span className="text-sm">{t.text}</span>
+          <span className="text-sm text-slate-800 dark:text-slate-100">
+            {t.text}
+          </span>
           <button
-            className="ml-auto text-xs text-brand-600"
+            className="ml-auto text-xs text-brand-600 dark:text-brand-400 hover:underline"
             onClick={() => remove(t.id)}
           >
             Close

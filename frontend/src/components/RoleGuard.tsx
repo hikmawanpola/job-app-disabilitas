@@ -11,7 +11,7 @@ export default function RoleGuard({
 }) {
   const { role } = useAuthStore();
   useEffect(() => {
-    if (!role) window.location.href = "/auth/login"; // ⬅️ perbaiki path
+    if (!role) window.location.href = "/auth/login";
     else if (!allow.includes(role)) window.location.href = "/";
   }, [role, allow]);
   if (!role || !allow.includes(role)) return null;

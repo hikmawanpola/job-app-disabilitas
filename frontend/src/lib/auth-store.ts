@@ -2,15 +2,21 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
-type Role = "user" | "company" | "admin";
+export type Role = "user" | "company" | "admin";
+type Profile = {
+  name?: string;
+  email?: string;
+  avatarUrl?: string; // user avatar
+  logoUrl?: string; // company logo
+};
 
-interface AuthState {
+type AuthState = {
   token?: string;
   role?: Role;
-  profile?: any;
-  setAuth: (v: { token?: string; role?: Role; profile?: any }) => void;
+  profile?: Profile;
+  setAuth: (p: { token: string; role: Role; profile?: Profile }) => void;
   logout: () => void;
-}
+};
 
 export const useAuthStore = create<AuthState>()(
   persist(
@@ -18,7 +24,7 @@ export const useAuthStore = create<AuthState>()(
       token: undefined,
       role: undefined,
       profile: undefined,
-      setAuth: (v) => set(v),
+      setAuth: (p) => set(p),
       logout: () =>
         set({ token: undefined, role: undefined, profile: undefined }),
     }),

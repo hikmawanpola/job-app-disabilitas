@@ -10,7 +10,7 @@ export default function JobCard({ job }: { job: Job }) {
   const { push } = useToast();
 
   return (
-    <article className="card bg-white dark:bg-neutral-900 border dark:border-neutral-700 rounded-2xl p-4 hover:shadow-sm transition">
+    <article className="card bg-white text-slate-900 border border-slate-300 rounded-2xl p-4 hover:shadow-sm transition dark:bg-neutral-900 dark:text-slate-100 dark:border-neutral-700">
       <header className="flex items-center justify-between gap-3">
         <div>
           <h3 className="text-lg font-semibold">{job.title}</h3>
@@ -20,7 +20,7 @@ export default function JobCard({ job }: { job: Job }) {
         </div>
         <button
           aria-label="Save job"
-          className={`p-2 rounded-lg hover:bg-rose-50 dark:hover:bg-neutral-800 ${
+          className={`p-2 rounded-lg hover:bg-rose-50 dark:hover:bg-neutral-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-brand-500/60 ${
             saved ? "text-brand-600" : ""
           }`}
           onClick={() => {
@@ -39,7 +39,7 @@ export default function JobCard({ job }: { job: Job }) {
         {job.tags.map((t) => (
           <span
             key={t}
-            className="text-xs bg-rose-50 dark:bg-neutral-800 text-brand-700 px-2 py-1 rounded-full border dark:border-neutral-700"
+            className="text-xs bg-rose-50 text-brand-700 border border-rose-200 px-2 py-1 rounded-full dark:bg-neutral-800 dark:text-brand-400 dark:border-neutral-700"
           >
             {t}
           </span>
@@ -47,15 +47,12 @@ export default function JobCard({ job }: { job: Job }) {
       </div>
 
       <div className="mt-4 flex gap-2">
-        <button
-          onClick={() => push(`Applied to ${job.title}`)}
-          className="px-3 py-2 rounded-xl bg-brand-600 text-white"
-        >
+        <button className="px-3 py-2 rounded-xl bg-brand-600 text-white hover:bg-brand-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-brand-500">
           Apply
         </button>
         <Link
           href={`/articles/${job.articleId ?? "1"}`}
-          className="px-3 py-2 rounded-xl border dark:border-neutral-700"
+          className="px-3 py-2 rounded-xl border border-slate-300 text-slate-700 hover:bg-rose-50 dark:border-neutral-700 dark:text-slate-100 dark:hover:bg-neutral-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-brand-500/60"
         >
           Read about accessibility
         </Link>

@@ -12,15 +12,19 @@ export default function Pagination({
       <button
         disabled={page <= 1}
         onClick={() => onPage(page - 1)}
-        className="px-3 py-2 border rounded-xl disabled:opacity-50"
+        className="px-3 py-2 border border-slate-300 dark:border-neutral-700 rounded-xl disabled:opacity-50
+                   text-slate-800 dark:text-slate-100 hover:bg-rose-50 dark:hover:bg-neutral-800"
       >
         Prev
       </button>
-      <span className="px-3 py-2">{page}</span>
+      <span className="px-3 py-2 text-slate-800 dark:text-slate-100">
+        {page}
+      </span>
       <button
         disabled={page >= total}
         onClick={() => onPage(page + 1)}
-        className="px-3 py-2 border rounded-xl disabled:opacity-50"
+        className="px-3 py-2 border border-slate-300 dark:border-neutral-700 rounded-xl disabled:opacity-50
+                   text-slate-800 dark:text-slate-100 hover:bg-rose-50 dark:hover:bg-neutral-800"
       >
         Next
       </button>

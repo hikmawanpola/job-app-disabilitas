@@ -16,15 +16,20 @@ export default function JobsPage() {
       <div className="mb-4 grid sm:grid-cols-4 gap-3">
         <input
           placeholder="Keyword"
-          className="rounded-xl border px-4 py-3 sm:col-span-2"
+          className="rounded-xl border border-slate-300 dark:border-neutral-700 px-4 py-3 sm:col-span-2
+                     bg-white dark:bg-neutral-900 text-slate-800 dark:text-slate-100
+                     placeholder:text-slate-400 dark:placeholder:text-slate-500"
         />
-        <select className="rounded-xl border px-4 py-3">
+        <select
+          className="rounded-xl border border-slate-300 dark:border-neutral-700 px-4 py-3
+                     bg-white dark:bg-neutral-900 text-slate-800 dark:text-slate-100"
+        >
           <option>All categories</option>
           <option>Senior</option>
           <option>Diffable access</option>
           <option>Visual impairment friendly</option>
         </select>
-        <button className="rounded-xl bg-brand-600 text-white px-4 py-3">
+        <button className="rounded-xl bg-brand-600 hover:bg-brand-700 text-white px-4 py-3 focus-visible:outline focus-visible:outline-2 focus-visible:outline-brand-500">
           Search
         </button>
       </div>

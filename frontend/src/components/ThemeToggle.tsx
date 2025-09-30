@@ -4,9 +4,8 @@ import { useEffect } from "react";
 import { useThemeStore } from "@/lib/theme-store";
 
 export default function ThemeToggle() {
-  const { dark, setDark, toggle } = useThemeStore();
+  const { dark, toggle } = useThemeStore();
   useEffect(() => {
-    // sinkron awal dari localStorage
     try {
       document.documentElement.classList.toggle("dark", dark);
     } catch {}
@@ -15,7 +14,7 @@ export default function ThemeToggle() {
   return (
     <button
       aria-label="Toggle theme"
-      className="p-2 rounded-lg hover:bg-rose-50 dark:hover:bg-neutral-800"
+      className="p-2 rounded-lg text-slate-700 dark:text-slate-200 hover:bg-rose-50 dark:hover:bg-neutral-800"
       onClick={toggle}
       title={dark ? "Switch to light" : "Switch to dark"}
     >

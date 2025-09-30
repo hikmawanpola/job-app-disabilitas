@@ -1,5 +1,7 @@
 "use client";
+import Avatar from "@/components/Avatar";
 import Link from "next/link";
+import { dashboardPathFor } from "@/lib/paths";
 import {
   Bell,
   Bookmark,
@@ -16,7 +18,7 @@ import ThemeToggle from "./ThemeToggle";
 import { usePathname } from "next/navigation";
 
 export default function Navbar() {
-  const { role, logout } = useAuthStore();
+  const { role, logout, profile } = useAuthStore();
   const pathname = usePathname();
 
   const linkCls = (href: string) =>
@@ -29,24 +31,18 @@ export default function Navbar() {
     ].join(" ");
 
   return (
-    <header
-      className="sticky top-0 z-40 bg-white/80 dark:bg-black/60 backdrop-blur
-                       border-b border-slate-200 dark:border-neutral-800"
-    >
+    <header className="sticky top-0 z-40 bg-white/80 dark:bg-black/60 backdrop-blur border-b border-slate-200 dark:border-neutral-800">
       <div className="max-w-6xl mx-auto px-4 py-2 flex items-center gap-3">
         <Link href="/" className="flex items-center gap-2">
           <img src="/logo.svg" alt="Inclusive Jobs" className="h-8 w-auto" />
         </Link>
 
         <div className="flex-1 hidden md:flex items-center gap-2">
-          <div
-            className="flex items-center gap-2 w-full max-w-xl rounded-full border
-                          px-3 py-2 dark:border-neutral-700"
-          >
-            <Search className="h-5 w-5 text-slate-400" />
+          <div className="flex items-center gap-2 w-full max-w-xl rounded-full border border-slate-300 dark:border-neutral-700 px-3 py-2">
+            <Search className="h-5 w-5 text-slate-400 dark:text-slate-500" />
             <input
-              className="flex-1 outline-none bg-transparent text-slate-800 dark:text-slate-100
-                         placeholder:text-slate-400 dark:placeholder:text-slate-500"
+              type="search"
+              className="flex-1 outline-none bg-transparent text-slate-800 dark:text-slate-100 placeholder:text-slate-400 dark:placeholder:text-slate-500"
               placeholder="Search jobs, companies, articles..."
             />
           </div>
@@ -96,7 +92,16 @@ export default function Navbar() {
                 className={linkCls("/user/dashboard")}
                 aria-label="Profile"
               >
-                <User2 />
+                {profile?.avatarUrl ? (
+                  <Avatar
+                    src={profile.avatarUrl}
+                    alt="Profile"
+                    size={28}
+                    fallback={(profile?.name || "U")[0]}
+                  />
+                ) : (
+                  <User2 />
+                )}
               </Link>
             </>
           )}
@@ -124,6 +129,18 @@ export default function Navbar() {
               >
                 <BriefcaseBusiness />
               </Link>
+              <Link
+                href="/company/profile"
+                className={linkCls("/company/profile")}
+                aria-label="Company"
+              >
+                <Avatar
+                  src={profile?.logoUrl}
+                  alt="Company"
+                  size={28}
+                  fallback={(profile?.name || "C")[0]}
+                />
+              </Link>
             </>
           )}
 
@@ -141,18 +158,23 @@ export default function Navbar() {
           <A11yToolbar />
 
           {role ? (
-            <button
-              onClick={() => {
-                logout();
-                window.location.href = "/auth/login";
-              }} // ⬅️ redirect benar
-              className="px-3 py-2 rounded-xl border
-               border-slate-300 dark:border-neutral-700
-               text-slate-700 dark:text-slate-200
-               hover:border-brand-600 hover:text-brand-600"
-            >
-              Log out
-            </button>
+            <div className="flex items-center gap-2">
+              <Link
+                href={dashboardPathFor(role)}
+                className="px-3 py-2 rounded-xl border border-slate-300 text-slate-700 hover:bg-rose-50 dark:border-neutral-700 dark:text-slate-100 dark:hover:bg-neutral-800"
+              >
+                Dashboard
+              </Link>
+              <button
+                onClick={() => {
+                  logout();
+                  window.location.href = "/auth/login";
+                }}
+                className="px-3 py-2 rounded-xl bg-brand-600 text-white hover:bg-brand-700"
+              >
+                Log out
+              </button>
+            </div>
           ) : (
             <Link
               href="/auth/login"

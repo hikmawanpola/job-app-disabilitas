@@ -17,25 +17,25 @@ export default function A11yToolbar() {
   return (
     <div className="flex items-center gap-1" aria-label="Accessibility toolbar">
       <button
-        className="p-2 rounded-lg hover:bg-rose-50"
+        className="p-2 rounded-lg text-slate-700 dark:text-slate-200 hover:bg-rose-50 dark:hover:bg-neutral-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-brand-500/60"
         aria-label="Decrease text"
         onClick={() => setScale(scale() - 0.1)}
       >
-        <ZoomOut />
+        <ZoomOut aria-hidden />
       </button>
       <button
-        className="p-2 rounded-lg hover:bg-rose-50"
+        className="p-2 rounded-lg text-slate-700 dark:text-slate-200 hover:bg-rose-50 dark:hover:bg-neutral-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-brand-500/60"
         aria-label="Increase text"
         onClick={() => setScale(scale() + 0.1)}
       >
-        <ZoomIn />
+        <ZoomIn aria-hidden />
       </button>
       <button
-        className="p-2 rounded-lg hover:bg-rose-50"
+        className="p-2 rounded-lg text-slate-700 dark:text-slate-200 hover:bg-rose-50 dark:hover:bg-neutral-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-brand-500/60"
         aria-label="High contrast"
         onClick={() => document.body.classList.toggle("hc")}
       >
-        <Contrast />
+        <Contrast aria-hidden />
       </button>
     </div>
   );

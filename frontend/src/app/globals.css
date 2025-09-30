@@ -1,11 +1,11 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+/* Tailwind v4 */
+@import "tailwindcss";
 
-/* Aksesibilitas: text scaling + high contrast */
+/* ===== Aksesibilitas ===== */
 :root {
   --text-scale: 1;
   --a11y-outline: 2px solid #0ea5e9;
+  color-scheme: light;
 }
 html {
   font-size: calc(16px * var(--text-scale));
@@ -15,41 +15,74 @@ html {
   outline-offset: 2px;
 }
 
+/* ===== Light defaults (tidak putih rata) ===== */
+body {
+  background: #f8fafc; /* slate-50 → supaya card putih gak nyaru */
+  color: #0f172a; /* slate-900 */
+}
+
+/* “Card” = surface-1 yang menonjol dari body */
+.card {
+  background: #ffffff;
+  border-color: #e2e8f0; /* slate-200 → lebih terlihat daripada slate-100 */
+  /* elevation halus agar gak “item putih doang” */
+  box-shadow: 0 1px 1px rgba(16, 24, 40, 0.04), 0 1px 2px rgba(16, 24, 40, 0.06);
+}
+.border {
+  border-color: #e2e8f0;
+} /* slate-200 */
+
+/* High contrast toggle */
 .hc body,
 body.hc {
-  background-color: #000;
+  background: #000;
   color: #fff;
 }
-.hc .card {
-  background: #111 !important;
-  border-color: #444 !important;
-}
-/* ganti baris HC untuk card */
 .hc .card:not(.hero-card) {
   background: #111 !important;
   border-color: #444 !important;
 }
 
-/* Dark mode (pakai class .dark di <html>) */
-:root {
-  color-scheme: light;
-}
+/* ===== Dark mode ===== */
 .dark {
   color-scheme: dark;
 }
 .dark body {
-  background: #0b0b0d;
-  color: #e5e7eb;
+  background: #0a0a0b; /* neutral-950 → lebih gelap dari sebelumnya */
+  color: #e5e7eb; /* slate-200 */
 }
 .dark .card {
-  background: #0f1115 !important;
-  border-color: #374151 !important;
+  background: #0f1115 !important; /* surface-1 (kontras dg body) */
+  border-color: #374151 !important; /* slate-700 */
+  /* elevation halus versi dark */
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.03), 0 1px 2px rgba(0, 0, 0, 0.4);
 }
 .dark .border {
   border-color: #374151 !important;
+} /* slate-700 */
+
+/* ⛔️ Jangan paksa warna teks card secara global */
+.dark .card {
+  color: inherit;
 }
 
-/* Clamp tanpa plugin */
+/* Placeholder & option */
+::placeholder {
+  color: #94a3b8;
+}
+.dark ::placeholder {
+  color: #94a3b8 !important;
+}
+select option {
+  color: #0f172a;
+  background: #fff;
+}
+.dark select option {
+  color: #e5e7eb;
+  background: #0f1115;
+}
+
+/* Line clamp */
 .line-clamp-2,
 .line-clamp-3,
 .line-clamp-4 {
@@ -65,4 +98,36 @@ body.hc {
 }
 .line-clamp-4 {
   -webkit-line-clamp: 4;
+}
+
+/* ==== Dark readability rescue ==== */
+.dark .text-slate-900,
+.dark .text-gray-900,
+.dark .text-neutral-900 {
+  color: #f8fafc !important;
+}
+.dark .text-slate-800,
+.dark .text-gray-800,
+.dark .text-neutral-800 {
+  color: #f1f5f9 !important;
+}
+.dark .text-slate-700,
+.dark .text-gray-700,
+.dark .text-neutral-700 {
+  color: #e5e7eb !important;
+}
+.dark .text-slate-600,
+.dark .text-gray-600,
+.dark .text-neutral-600 {
+  color: #cbd5e1 !important;
+}
+.dark .text-slate-500,
+.dark .text-gray-500,
+.dark .text-neutral-500 {
+  color: #94a3b8 !important;
+}
+
+/* Area konten (khusus dark) */
+.dark .page-content {
+  color: #e5e7eb;
 }
