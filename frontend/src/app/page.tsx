@@ -1,103 +1,70 @@
-import Image from "next/image";
+import Link from "next/link";
 
-export default function Home() {
+export default function Page() {
   return (
-    <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="font-mono list-inside list-decimal text-sm/6 text-center sm:text-left">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] font-mono font-semibold px-1 py-0.5 rounded">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+    <section
+      className="rounded-2xl p-6 md:p-8
+                        bg-gradient-to-b from-rose-50 to-white
+                        dark:from-neutral-900 dark:to-neutral-950"
+    >
+      <div className="grid lg:grid-cols-2 gap-8 items-center">
+        <div>
+          <h1
+            className="text-5xl md:text-6xl font-extrabold tracking-tight leading-[1.1]
+                         text-slate-900 dark:text-white"
+          >
+            Find inclusive work.{" "}
+            <span className="text-brand-700 dark:text-brand-400">
+              Build brighter careers.
+            </span>
+          </h1>
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+          <p className="mt-4 text-slate-600 dark:text-slate-300">
+            Platform kerja profesional yang ramah penyandang disabilitas &
+            lansia—dengan aksesibilitas, filter khusus, dan antarmuka sederhana.
+          </p>
+
+          <div className="mt-6 flex gap-3">
+            <Link
+              href="/auth/register"
+              className="px-5 py-3 rounded-xl bg-brand-600 text-white hover:bg-brand-700
+                         focus-visible:outline focus-visible:outline-2 focus-visible:outline-brand-500"
+            >
+              Get Started
+            </Link>
+
+            {/* Secondary button dengan kontras jelas di dua tema */}
+            <Link
+              href="/auth/login"
+              className="px-5 py-3 rounded-xl border
+                         border-slate-300 text-slate-700 hover:border-brand-600 hover:text-brand-600 hover:bg-rose-50
+                         dark:border-neutral-700 dark:text-slate-100 dark:hover:text-brand-400 dark:hover:bg-neutral-800
+                         focus-visible:outline focus-visible:outline-2 focus-visible:outline-brand-500/60"
+            >
+              Sign in
+            </Link>
+          </div>
+
+          <p className="mt-3 text-xs text-slate-500 dark:text-slate-400">
+            Fitur: profil, search/filter, post/apply job, saved jobs, lamaran,
+            notifikasi, chat, artikel, dashboard admin.
+          </p>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
+
+        {/* hero-card agar tidak ikut hitam saat High-Contrast */}
+        <div
+          className="rounded-2xl border card hero-card p-6 bg-white shadow-sm
+                        dark:bg-neutral-900 dark:border-neutral-700"
         >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+          <ul className="space-y-3">
+            <li>
+              ✅ Aksesibilitas: ukuran teks, kontras tinggi, keyboard-friendly
+            </li>
+            <li>✅ 3 role: User (pencari kerja), Company, Admin</li>
+            <li>✅ Ringan: Tailwind + komponen kecil</li>
+          </ul>
+        </div>
+      </div>
+    </section>
   );
 }
