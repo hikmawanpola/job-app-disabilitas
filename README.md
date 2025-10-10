@@ -104,7 +104,7 @@ Aplikasi ini menggunakan MySQL yang dijalankan melalui Docker.
     ```bash
     npm run dev
     ```
-    Aplikasi frontend akan dapat diakses di `http://localhost:3000`.
+    Aplikasi frontend akan dapat diakses di `http://localhost:5000`.
 
 ### 5. Selesai!
 
