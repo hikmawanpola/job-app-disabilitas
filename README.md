@@ -85,6 +85,27 @@ Aplikasi ini menggunakan MySQL yang dijalankan melalui Docker.
     ```
     Aplikasi frontend akan dapat diakses di `http://localhost:3000`.
 
+### 5. Setup Backend
+
+1.  Buka terminal baru dan navigasi ke direktori `backend`.
+
+    ```bash
+    cd backend
+    ```
+
+2.  Install semua dependensi yang dibutuhkan.
+
+    ```bash
+    npm install
+    ```
+
+3.  Jalankan server pengembangan frontend.
+
+    ```bash
+    npm run dev
+    ```
+    Aplikasi frontend akan dapat diakses di `http://localhost:3000`.
+
 ### 5. Selesai!
 
 Sekarang Anda dapat membuka `http://localhost:3000` di browser Anda untuk melihat aplikasi berjalan. Backend akan berkomunikasi dengan database, dan frontend akan mengambil data dari backend.
