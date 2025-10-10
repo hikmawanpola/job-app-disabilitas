@@ -2,10 +2,31 @@
 import RoleGuard from "@/components/RoleGuard";
 import JobCard from "@/components/JobCard";
 import ArticleCard from "@/components/ArticleCard";
-import { jobs } from "@/mocks/jobs";
+import { useState, useEffect } from "react";
+import { apiGet } from "@/lib/api";
+import { Job } from "@/lib/types";
 import { articles } from "@/mocks/articles";
 
 export default function UserDashboard() {
+  const [jobs, setJobs] = useState<Job[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetchJobs();
+  }, []);
+
+  const fetchJobs = async () => {
+    setLoading(true);
+    try {
+      const data = await apiGet("/jobs/recommended");
+      setJobs(data);
+    } catch (error) {
+      console.error("Failed to fetch jobs", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <RoleGuard allow={["user"]}>
       <div className="grid lg:grid-cols-3 gap-6">
@@ -23,9 +44,13 @@ export default function UserDashboard() {
           <h2 className="font-bold text-xl text-slate-900 dark:text-white">
             Recommended Jobs
           </h2>
-          {jobs.slice(0, 4).map((j) => (
-            <JobCard key={j.id} job={j} />
-          ))}
+          {loading ? (
+            <p>Loading jobs...</p>
+          ) : jobs.length > 0 ? (
+            jobs.map((j) => <JobCard key={j.id} job={j} />)
+          ) : (
+            <p>No jobs found.</p>
+          )}
         </section>
 
         <aside className="space-y-4">

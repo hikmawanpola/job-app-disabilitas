@@ -1,29 +1,54 @@
 "use client";
 import RoleGuard from "@/components/RoleGuard";
-import CandidateCard from "@/components/CandidateCard";
-import { candidates } from "@/mocks/candidates";
-import ArticleCard from "@/components/ArticleCard";
-import { articles } from "@/mocks/articles";
+import { useState, useEffect } from "react";
+import { useAuthStore } from "@/lib/auth-store";
+import { apiGet } from "@/lib/api";
+import JobCard from "@/components/JobCard";
+import { Job } from "@/lib/types";
 
 export default function CompanyDashboard() {
+  const [jobs, setJobs] = useState<Job[]>([]);
+  const [loading, setLoading] = useState(true);
+  const { profile } = useAuthStore();
+
+  useEffect(() => {
+    if (profile?.id) {
+      fetchJobs();
+    }
+  }, [profile?.id]);
+
+  const fetchJobs = async () => {
+    setLoading(true);
+    try {
+      const data = await apiGet(`/jobs/company/${profile?.id}`);
+      setJobs(data);
+    } catch (error) {
+      console.error("Failed to fetch jobs", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <RoleGuard allow={["company"]}>
       <div className="grid lg:grid-cols-3 gap-6">
         <section className="lg:col-span-2 space-y-4">
           <h2 className="font-bold text-xl text-slate-900 dark:text-white">
-            Recommended Candidates
+            Your Job Postings
           </h2>
-          {candidates.slice(0, 4).map((c) => (
-            <CandidateCard key={c.id} c={c} />
-          ))}
+          {loading ? (
+            <p>Loading jobs...</p>
+          ) : jobs.length > 0 ? (
+            jobs.map((job) => <JobCard key={job.id} job={job} />)
+          ) : (
+            <p>You haven't posted any jobs yet.</p>
+          )}
         </section>
         <aside className="space-y-4">
           <h2 className="font-bold text-xl text-slate-900 dark:text-white">
-            Articles
+            Recommended Candidates
           </h2>
-          {articles.slice(0, 3).map((a) => (
-            <ArticleCard key={a.id} a={a} />
-          ))}
+          {/* Placeholder for candidates */}
         </aside>
       </div>
     </RoleGuard>

@@ -5,7 +5,8 @@ export type Job = {
   location: string;
   summary: string;
   tags: string[];
-  articleId?: number;
+  articleId?: string;
+  applicant_count?: number;
 };
 export type Candidate = {
   id: number;

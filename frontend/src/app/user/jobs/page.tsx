@@ -1,15 +1,35 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import JobCard from "@/components/JobCard";
-import { jobs } from "@/mocks/jobs";
 import Pagination from "@/components/Pagination";
 import RoleGuard from "@/components/RoleGuard";
+import { apiGet } from "@/lib/api";
+import { Job } from "@/lib/types";
 
 export default function JobsPage() {
+  const [jobs, setJobs] = useState<Job[]>([]);
+  const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(1);
   const pageSize = 6;
-  const data = jobs.slice((page - 1) * pageSize, page * pageSize);
-  const total = Math.ceil(jobs.length / pageSize);
+
+  useEffect(() => {
+    fetchJobs();
+  }, []);
+
+  const fetchJobs = async () => {
+    setLoading(true);
+    try {
+      const data = await apiGet("/jobs");
+      setJobs(data);
+    } catch (error) {
+      console.error("Failed to fetch jobs", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const paginatedJobs = jobs.slice((page - 1) * pageSize, page * pageSize);
+  const totalPages = Math.ceil(jobs.length / pageSize);
 
   return (
     <RoleGuard allow={["user"]}>
@@ -34,12 +54,18 @@ export default function JobsPage() {
         </button>
       </div>
 
-      <div className="grid md:grid-cols-2 gap-4">
-        {data.map((j) => (
-          <JobCard key={j.id} job={j} />
-        ))}
-      </div>
-      <Pagination page={page} total={total} onPage={setPage} />
+      {loading ? (
+        <div className="text-center">Loading...</div>
+      ) : (
+        <>
+          <div className="grid md:grid-cols-2 gap-4">
+            {paginatedJobs.map((j) => (
+              <JobCard key={j.id} job={j} />
+            ))}
+          </div>
+          <Pagination page={page} total={totalPages} onPage={setPage} />
+        </>
+      )}
     </RoleGuard>
   );
 }

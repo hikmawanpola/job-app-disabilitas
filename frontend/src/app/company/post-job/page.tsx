@@ -4,22 +4,26 @@ import TextInput from "@/components/form/TextInput";
 import TextArea from "@/components/form/TextArea";
 import Select from "@/components/form/Select";
 import { apiPost } from "@/lib/api";
+import { useAuthStore } from "@/lib/auth-store";
 import { useToast } from "@/lib/toast-store";
 
 export default function PostJobPage() {
   const { push } = useToast();
+  const { profile } = useAuthStore();
 
   const submit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const fd = new FormData(e.currentTarget);
-    const payload = Object.fromEntries(fd.entries());
+    const payload = {
+      ...Object.fromEntries(fd.entries()),
+      company_id: profile?.id,
+    };
     try {
-      const res = await apiPost("/company/jobs", payload);
-      push(res?.ok ? "Job posted" : "Posted (frontend mock)");
+      await apiPost("/jobs", payload);
+      push("Job posted successfully!");
       (e.target as HTMLFormElement).reset();
-    } catch {
-      push("Posted (frontend mock)");
-      (e.target as HTMLFormElement).reset();
+    } catch (err) {
+      push("Failed to post job");
     }
   };
 
@@ -44,9 +48,9 @@ export default function PostJobPage() {
         <TextInput name="location" placeholder="Location" required />
 
         <label className="text-sm text-slate-700 dark:text-slate-200">
-          Category
+          Type
         </label>
-        <Select name="category" required>
+        <Select name="type" required>
           <option value="">Select category</option>
           <option>Senior</option>
           <option>Diffable access</option>

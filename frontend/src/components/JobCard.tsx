@@ -5,9 +5,36 @@ import { Job } from "@/lib/types";
 import { useToast } from "@/lib/toast-store";
 import Link from "next/link";
 
+import { useAuthStore } from "@/lib/auth-store";
+import { apiPost } from "@/lib/api";
+
 export default function JobCard({ job }: { job: Job }) {
   const [saved, setSaved] = useState(false);
   const { push } = useToast();
+  const { role, profile } = useAuthStore();
+
+  const handleApply = async () => {
+    if (role !== 'user' || !profile?.id) {
+      push("You must be logged in as a user to apply.");
+      return;
+    }
+
+    if (window.confirm("Are you sure you want to apply for this job?")) {
+      try {
+        const res = await apiPost('/applications', {
+          job_id: job.id,
+          user_id: profile.id,
+        });
+        push(res.message || "Application submitted successfully!");
+      } catch (error: any) {
+        if (error.response && error.response.status === 409) {
+          push("You have already applied for this job.");
+        } else {
+          push("Failed to submit application.");
+        }
+      }
+    }
+  };
 
   return (
     <article className="card bg-white text-slate-900 border border-slate-300 rounded-2xl p-4 hover:shadow-sm transition dark:bg-neutral-900 dark:text-slate-100 dark:border-neutral-700">
@@ -46,10 +73,19 @@ export default function JobCard({ job }: { job: Job }) {
         ))}
       </div>
 
-      <div className="mt-4 flex gap-2">
-        <button className="px-3 py-2 rounded-xl bg-brand-600 text-white hover:bg-brand-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-brand-500">
-          Apply
-        </button>
+      <div className="mt-4 flex gap-2 items-center">
+        {role === 'company' ? (
+          <div className="text-sm text-slate-600 dark:text-slate-300">
+            {job.applicant_count} applicant(s)
+          </div>
+        ) : (
+          <button 
+            onClick={handleApply}
+            className="px-3 py-2 rounded-xl bg-brand-600 text-white hover:bg-brand-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-brand-500"
+          >
+            Apply
+          </button>
+        )}
         <Link
           href={`/articles/${job.articleId ?? "1"}`}
           className="px-3 py-2 rounded-xl border border-slate-300 text-slate-700 hover:bg-rose-50 dark:border-neutral-700 dark:text-slate-100 dark:hover:bg-neutral-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-brand-500/60"

@@ -4,6 +4,7 @@ import { persist } from "zustand/middleware";
 
 export type Role = "user" | "company" | "admin";
 type Profile = {
+  id?: number;
   name?: string;
   email?: string;
   avatarUrl?: string; // user avatar
