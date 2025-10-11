@@ -1,4 +1,4 @@
-# Job App untuk Disabilitas & Lansia
+# Job App untuk Disabilitas & Lansia By Tim 14 study group EISD
 
 Proyek ini adalah platform pencarian kerja yang dirancang khusus untuk penyandang disabilitas dan lansia, menghubungkan mereka dengan perusahaan yang menyediakan lingkungan kerja yang inklusif.
 
