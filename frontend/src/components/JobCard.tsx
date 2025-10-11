@@ -8,14 +8,20 @@ import Link from "next/link";
 import { useAuthStore } from "@/lib/auth-store";
 import { apiPost } from "@/lib/api";
 
-export default function JobCard({ job }: { job: Job }) {
+export default function JobCard({
+  job,
+  onDelete,
+}: {
+  job: Job;
+  onDelete?: () => void;
+}) {
   const [saved, setSaved] = useState(false);
   const { push } = useToast();
   const { role, profile } = useAuthStore();
 
   const handleApply = async () => {
     if (role !== 'user' || !profile?.id) {
-      push("You must be logged in as a user to apply.");
+      push({ message: "You must be logged in as a user to apply.", type: "error" });
       return;
     }
 
@@ -25,12 +31,12 @@ export default function JobCard({ job }: { job: Job }) {
           job_id: job.id,
           user_id: profile.id,
         });
-        push(res.message || "Application submitted successfully!");
+        push({ message: res.message || "Application submitted successfully!", type: "success" });
       } catch (error: any) {
         if (error.response && error.response.status === 409) {
-          push("You have already applied for this job.");
+          push({ message: "You have already applied for this job.", type: "error" });
         } else {
-          push("Failed to submit application.");
+          push({ message: "Failed to submit application.", type: "error" });
         }
       }
     }
@@ -52,7 +58,7 @@ export default function JobCard({ job }: { job: Job }) {
           }`}
           onClick={() => {
             setSaved(!saved);
-            push(saved ? "Removed from saved" : "Saved job");
+            push({ message: saved ? "Removed from saved" : "Saved job", type: "info" });
           }}
         >
           <Bookmark />
@@ -75,8 +81,18 @@ export default function JobCard({ job }: { job: Job }) {
 
       <div className="mt-4 flex gap-2 items-center">
         {role === 'company' ? (
-          <div className="text-sm text-slate-600 dark:text-slate-300">
-            {job.applicant_count} applicant(s)
+          <div className="flex items-center gap-4">
+            <div className="text-sm text-slate-600 dark:text-slate-300">
+              {job.applicant_count} applicant(s)
+            </div>
+            {onDelete && (
+              <button
+                onClick={onDelete}
+                className="px-3 py-2 rounded-xl bg-rose-500 text-white hover:bg-rose-600 text-sm"
+              >
+                Delete
+              </button>
+            )}
           </div>
         ) : (
           <button 

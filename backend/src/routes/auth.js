@@ -95,7 +95,7 @@ router.post('/login', async (req, res) => {
             }
         }
 
-        res.json({
+        res.status(200).json({
             success: true,
             token: 'dev-token', // Replace with actual token generation
             role: user.role,

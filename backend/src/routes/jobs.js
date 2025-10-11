@@ -28,7 +28,7 @@ router.get('/', async (req, res) => {
             applicant_count: job.applicant_count
         }));
         
-        res.json(formattedJobs);
+        res.status(200).json(formattedJobs);
     } catch (error) {
         res.status(500).json({ message: 'Server error' });
     }
@@ -61,7 +61,7 @@ router.get('/recommended', async (req, res) => {
             applicant_count: job.applicant_count
         }));
         
-        res.json(formattedJobs);
+        res.status(200).json({ success: true, jobs: formattedJobs });
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: 'Server error' });
@@ -96,7 +96,7 @@ router.get('/company/:companyId', async (req, res) => {
             applicant_count: job.applicant_count
         }));
         
-        res.json(formattedJobs);
+        res.status(200).json(formattedJobs);
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: 'Server error' });
@@ -111,7 +111,7 @@ router.get('/:id', async (req, res) => {
             [req.params.id]
         );
         if (jobs.length > 0) {
-            res.json(jobs[0]);
+            res.status(200).json(jobs[0]);
         } else {
             res.status(404).json({ message: 'Job not found' });
         }
@@ -138,6 +138,39 @@ router.post('/', async (req, res) => {
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: 'Server error' });
+    }
+});
+
+router.delete('/:id', async (req, res) => {
+    const connection = await db.getConnection();
+    try {
+        await connection.beginTransaction();
+
+        // First, delete related applications
+        await connection.execute(
+            'DELETE FROM applications WHERE job_id = ?',
+            [req.params.id]
+        );
+
+        // Then, delete the job
+        const [result] = await connection.execute(
+            'DELETE FROM jobs WHERE id = ?',
+            [req.params.id]
+        );
+
+        await connection.commit();
+
+        if (result.affectedRows > 0) {
+            res.status(200).json({ message: 'Job and associated applications deleted successfully' });
+        } else {
+            res.status(404).json({ message: 'Job not found' });
+        }
+    } catch (error) {
+        await connection.rollback();
+        console.error(error);
+        res.status(500).json({ message: 'Server error' });
+    } finally {
+        connection.release();
     }
 });
 

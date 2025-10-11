@@ -21,7 +21,7 @@ router.get('/company/:companyId', async (req, res) => {
             ORDER BY a.created_at DESC
         `, [req.params.companyId]);
 
-        res.json({
+        res.status(200).json({
             success: true,
             data: applications
         });
@@ -48,7 +48,7 @@ router.get('/user/:userId', async (req, res) => {
             ORDER BY a.created_at DESC
         `, [req.params.userId]);
 
-        res.json({
+        res.status(200).json({
             success: true,
             data: applications
         });
@@ -67,7 +67,7 @@ router.patch('/:id/status', async (req, res) => {
             [status, req.params.id]
         );
 
-        res.json({
+        res.status(200).json({
             success: true,
             message: 'Application status updated'
         });

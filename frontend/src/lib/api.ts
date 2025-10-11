@@ -25,3 +25,28 @@ export async function apiPost(endpoint: string, data: any) {
   if (!res.ok) throw new Error('API Error');
   return res.json();
 }
+
+export async function apiPatch(endpoint: string, data: any) {
+  const res = await fetch(`${API_BASE}${endpoint}`, {
+    method: 'PATCH',
+    credentials: 'include',
+    headers: {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json'
+    },
+    body: JSON.stringify(data)
+  });
+  if (!res.ok) throw new Error('API Error');
+  return res.json();
+}
+export async function apiDelete(endpoint: string) {
+  const res = await fetch(`${API_BASE}${endpoint}`, {
+    method: 'DELETE',
+    credentials: 'include',
+    headers: {
+      'Accept': 'application/json'
+    }
+  });
+  if (!res.ok) throw new Error('API Error');
+  return res.json();
+}

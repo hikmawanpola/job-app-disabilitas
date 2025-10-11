@@ -23,12 +23,6 @@ export default function LoginPage() {
     if (currentRole) router.replace(dashboardPathFor(currentRole));
   }, [currentRole, router]);
 
-  const roleSel = watch("role");
-  useEffect(() => {
-    if (roleSel === "admin") setValue("email", "admin@example.com");
-    else if (roleSel === "company") setValue("email", "hr@example.com");
-    else if (roleSel === "user") setValue("email", "user@example.com");
-  }, [roleSel, setValue]);
 
   const go = (role: Role) => router.replace(dashboardPathFor(role));
 
@@ -107,12 +101,6 @@ export default function LoginPage() {
           id="role"
           {...register("role")}
           className="w-full rounded-xl border border-slate-300 dark:border-neutral-700 bg-white dark:bg-neutral-900 px-4 py-3 text-slate-900 dark:text-slate-100"
-          onChange={(e) => {
-            const v = e.target.value as Role | "";
-            if (v === "admin") setValue("email", "admin@example.com");
-            else if (v === "company") setValue("email", "hr@example.com");
-            else if (v === "user") setValue("email", "user@example.com");
-          }}
         >
           <option value="">Choose role (dev)</option>
           <option value="user">Sign in as User</option>
